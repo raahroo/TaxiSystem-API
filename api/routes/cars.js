@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+
+// Handle incoming GET requests to /cars
 router.get('/', (rq,res,next)=>{
     res.status(200).json({
         message: 'Handling GET request to /cars'
