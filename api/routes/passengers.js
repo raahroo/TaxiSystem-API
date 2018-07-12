@@ -3,19 +3,24 @@ const router = express.Router();
 
 
 // Handle incoming GET requests to /cars
-router.get('/', (rq,res,next)=>{
+router.get('/', (req,res,next)=>{
     res.status(200).json({
         message: 'Handling GET request to /passengers'
     });
 });
 
-router.post('/', (rq,res,next)=>{
+router.post('/', (req,res,next)=>{
+    const passenger = {
+        name: req.body.firstName,
+        lastName: req.body.lastName,
+    }
     res.status(200).json({
-        message: 'Handling POST request to /passengers'
+        message: 'Handling POST request to /passengers',
+        createdPassenger: passenger
     });
 });
 
-router.get('/:passegerId', (req,res,next) =>{
+router.get('/:passengerId', (req,res,next) =>{
     const id = req.params.carId;
     if( id === 'special'){
         res.status(200).json({
@@ -29,13 +34,20 @@ router.get('/:passegerId', (req,res,next) =>{
     }
 });
 
-router.patch('/:passegerId', (req,res,next) =>{
+router.patch('/:passengerId', (req,res,next) =>{
     res.status(200).json({
         message: 'Updated Passenger',
     });
 });
 
-router.delete('/:passegerId', (req,res,next) =>{
+router.delete('/:passengerId', (err,req,res,next) =>{
+    const hasBooking = req.body.demand.activeDemand;
+    if (hasBooking === true) {
+        res.status(500).json({
+            error: 'err',
+            message: 'You cannot delete this passenger because he has an active booking',
+        });
+    }
     res.status(200).json({
         message: 'Deleted Passenger',
     });

@@ -8,8 +8,14 @@ router.get('/', (req,res,next)=>{
 });
 
 router.post('/', (req,res,next)=>{
+    const demand = {
+        passengerId: req.body.passengerId,
+        cardId: req.body.carId,
+        activeDemand: true
+    }
     res.status(201).json({
-        message: 'Demand created'
+        message: 'Demand created',
+        demand: demand
     });
 });
 
