@@ -40,17 +40,25 @@ router.patch('/:passengerId', (req,res,next) =>{
     });
 });
 
-router.delete('/:passengerId', (err,req,res,next) =>{
-    const hasBooking = req.body.demand.activeDemand;
+router.delete('/:passengerId', (err,req,res,next) => {
+    let hasBooking;
+    if(req.body.demand.activeDemand) {
+        hasBooking = req.body.demand.activeDemand;
+    } else {
+        hasBooking = false;
+    }
+
     if (hasBooking === true) {
         res.status(500).json({
             error: 'err',
             message: 'You cannot delete this passenger because he has an active booking',
         });
+    } else {
+        res.status(200).json({
+            message: 'Deleted Passenger',
+        });
     }
-    res.status(200).json({
-        message: 'Deleted Passenger',
-    });
+    
 });
 
 module.exports = router;
